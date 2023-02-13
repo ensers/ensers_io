@@ -7,14 +7,9 @@ Original file is located at
     https://colab.research.google.com/drive/1qRzwALyUeq9uMuQFXxqfI3c5qN792co7
 """
 
-!pip install farm-haystack['all-gpu']
-!pip install farm-haystack['pinecone']
-!pip install farm-haystack['PDFToTextConverter']
-!pip install farm-haystack[ocr]
-!wget --no-check-certificate https://dl.xpdfreader.com/xpdf-tools-linux-4.04.tar.gz
-!tar -xvf xpdf-tools-linux-4.04.tar.gz && sudo cp xpdf-tools-linux-4.04/bin64/pdftotext /usr/local/bin
 
-exit()
+
+# exit()
 
 """**Imports**"""
 
@@ -113,7 +108,7 @@ prediction = pipe.run(
     params={"Retriever": {"top_k": 10}, "Reader": {"top_k": 3}}
 )
 
-print_answers(prediction)
+# print_answers(prediction)
 
 result=pipeline.run(
     query=query,
@@ -124,7 +119,7 @@ result=pipeline.run(
     }
 )
 
-print_answers(result)
+# print_answers(result)
 
 """**Clean-Up**"""
 
