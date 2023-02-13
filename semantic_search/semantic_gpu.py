@@ -34,30 +34,35 @@ retriever=EmbeddingRetriever(
     use_gpu=False)
 
 
-doc_dir='./content'
-all_docs = convert_files_to_docs(dir_path=doc_dir)
 
-# Pre-processing
+def preprocess_docs(processor,path='./content'):
+    doc_dir=path
+    all_docs = convert_files_to_docs(dir_path=doc_dir)
 
-data_json=[
-    {
-        'content':doc.content.replace('\n',' ').replace('\x0c',''),
-          'meta':{'name':doc.meta}
-} for doc in all_docs
-]
+    # Pre-processing
+    data_json=[
+        {
+            'content':doc.content.replace('\n',' ').replace('\x0c',''),
+            'meta':{'name':doc.meta}
+    } for doc in all_docs
+    ]
+    docs=processor.process(data_json)
+    return docs
 
-docs=processor.process(data_json)
+def process_docs(docs):
+    document_store.write_documents(docs) 
+    document_store.update_embeddings(
+    retriever,
+    batch_size=256
+    )
 
 # Writing documents to document store
 
-document_store.write_documents(docs)
+
 
 # Embedding documents in the document store
 
-document_store.update_embeddings(
-    retriever,
-    batch_size=256
-)
+
 
 
 # Clean-Up
