@@ -71,7 +71,7 @@ document_store.get_document_count()
 
 """**Loading Data from a directory**"""
 
-doc_dir='/content/drive/MyDrive/semantic'
+doc_dir='./content'
 all_docs = convert_files_to_docs(dir_path=doc_dir)
 
 """**Pre-processing**"""
