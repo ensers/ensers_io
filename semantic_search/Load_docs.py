@@ -6,8 +6,8 @@ from haystack.utils import convert_files_to_docs
 
 @dataclass
 class Process_Docs:
-   processor:  processor
-   doc_dir: str 
+   processor:  processor =processor
+   doc_dir: str = field(default_factory=str)
    all_docs: list = field(default_factory=list)
    data_json: list = field(default_factory=list)
    docs: list = field(default_factory=list)
@@ -33,15 +33,12 @@ class Process_Docs:
     batch_size=256
     )
    
-def main():
-    try:
-        document=Process_Docs(processor=processor, doc_dir='../content')
-        document.get_docs()
-        print(str(document.process_docs()))
-    except Exception as err:
-        print(f"Unexpected {err=}, {type(err)=}")
-        raise
+# def main():
+#     document=Process_Docs(doc_dir='../content')
+#     document.get_docs()
+#     print(str(document.process_docs()))
+    
     
 
-if __name__=='__main__':
-    main()
+# if __name__=='__main__':
+#     main()
