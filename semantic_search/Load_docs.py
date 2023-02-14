@@ -36,7 +36,7 @@ class Process_Docs:
 def main():
     document=Process_Docs(processor=processor, doc_dir='../content')
     document.get_docs()
-    print(document.process_docs()[0])
+    print(str(document.process_docs()))
 
 if __name__=='__main__':
     main()
