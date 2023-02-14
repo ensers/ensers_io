@@ -4,7 +4,8 @@ sys.path.append('../semantic_search')
 import Load_docs
 
 from flask import Flask, request
-from semantic_search  import Load_docs
+from semantic_search  import Load_docs , semantic_gpu
+
 
 app=Flask(__name__)
 
@@ -20,8 +21,12 @@ def process_docs():
     return res
 
 @app.route("/querry", methods=['GET','POST'])
-def querry():
+def querry(request):
     if request.method== 'POST':
-        pass
+        query=request.args.get('key', '')
+        response=semantic_gpu.pipe.run(
+            query=query,
+            params={"Retriever": {"top_k": 10}, "Reader": {"top_k": 3}})
+        return query
     else:
         return "<p> Paste your querry </p>"
