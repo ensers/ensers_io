@@ -1,6 +1,4 @@
-from haystack.nodes import FARMReader
-from haystack.pipelines import ExtractiveQAPipeline
-from semantic_gpu import retriever
+
 
 model = "deepset/roberta-base-squad2"
 reader = FARMReader(model, use_gpu=False)

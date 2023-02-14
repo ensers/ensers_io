@@ -1,12 +1,15 @@
 # Imports
 
 from haystack.document_stores import PineconeDocumentStore
-from haystack.utils import convert_files_to_docs
 from haystack.nodes import PreProcessor
 from haystack import Document
 from haystack.nodes.retriever import EmbeddingRetriever
 from haystack.utils import print_answers
-
+from haystack.nodes.answer_generator import RAGenerator
+from haystack.pipelines import GenerativeQAPipeline
+from haystack import Pipeline
+from haystack.nodes import FARMReader
+from haystack.pipelines import ExtractiveQAPipeline
 # Initializing variables
 
 document_store = PineconeDocumentStore(
@@ -33,35 +36,12 @@ retriever=EmbeddingRetriever(
     model_format='sentence_transformers',
     use_gpu=False)
 
-
-
-def preprocess_docs(processor,path='./content'):
-    doc_dir=path
-    all_docs = convert_files_to_docs(dir_path=doc_dir)
-
-    # Pre-processing
-    data_json=[
-        {
-            'content':doc.content.replace('\n',' ').replace('\x0c',''),
-            'meta':{'name':doc.meta}
-    } for doc in all_docs
-    ]
-    docs=processor.process(data_json)
-    return docs
-
-def process_docs(docs):
-    document_store.write_documents(docs) 
-    document_store.update_embeddings(
-    retriever,
-    batch_size=256
-    )
-
-# Writing documents to document store
-
-
-
-# Embedding documents in the document store
-
+# generator = RAGenerator(
+#     model_name_or_path="facebook/rag-sequence-nq",
+#     retriever=retriever,
+#     top_k=1,
+#     min_length=2
+# )
 
 
 
