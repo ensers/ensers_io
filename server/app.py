@@ -21,12 +21,12 @@ def process_docs():
     return res
 
 @app.route("/querry", methods=['GET','POST'])
-def querry(request):
+def querry():
     if request.method== 'POST':
         query=request.args.get('key', '')
-        response=semantic_gpu.pipe.run(
-            query=query,
-            params={"Retriever": {"top_k": 10}, "Reader": {"top_k": 3}})
-        return query
+        # response=semantic_gpu.pipe.run(
+        #     query=query,
+        #     params={"Retriever": {"top_k": 10}, "Reader": {"top_k": 3}})
+        return request
     else:
-        return "<p> Paste your querry </p>"
+        return request.to_json()
