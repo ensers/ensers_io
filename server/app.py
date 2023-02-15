@@ -34,14 +34,15 @@ def process_docs():
             )
     return response
 
-@app.route("/querry", methods=['GET','POST'])
+@app.route("/ensers", methods=['GET','POST'])
 
 def querry():
     if request.method== 'POST':
-        query=request.args.get('key', '')
-        # response=semantic_gpu.pipe.run(
-        #     query=query,
-        #     params={"Retriever": {"top_k": 10}, "Reader": {"top_k": 3}})
-        return request
+        query=request.data
+        response=semantic_gpu.reader_pipeline.run(
+            query=query,
+            params={"Retriever": {"top_k": 10}, "Reader": {"top_k": 3}})
+        return response
     else:
-        return jsonify(request)
+        response={"res":"Enter your query.."}
+        return response
