@@ -37,12 +37,12 @@ retriever = DensePassageRetriever(
     passage_embedding_model="vblagoje/dpr-ctx_encoder-single-lfqa-wiki",
 )
 
-# generator = Seq2SeqGenerator(model_name_or_path="vblagoje/bart_lfqa")
+generator = Seq2SeqGenerator(model_name_or_path="vblagoje/bart_lfqa")
 
 model = "deepset/roberta-base-squad2"
-reader = FARMReader(model, use_gpu=False)
+reader = FARMReader(model, use_gpu=True)
 
 reader_pipeline = ExtractiveQAPipeline(reader, retriever)
-# generator_pipeline=GenerativeQAPipeline(generator,retriever)
+generator_pipeline=GenerativeQAPipeline(generator,retriever)
 
 
