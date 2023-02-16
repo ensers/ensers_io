@@ -18,10 +18,25 @@ parser.add_argument('doc_dir',type=str, help='Enter the document path')
 TODOS = {
 }
 def getanswers(query):
-    response=semantic_gpu.reader_pipeline.run(
+    response={}
+    res=semantic_gpu.reader_pipeline.run(
             query=query,
             params={"Retriever": {"top_k": 10}, "Reader": {"top_k": 3}})
-    return response
+    response=res['answers'][0].answer
+    return {"response":response}
+
+# def generate_answer(query):
+#     result=semantic_gpu.generator_pipeline.run(
+#         query=query,
+#         params={
+#             'Retriever':{'top_k':10},
+#             'Generator': {'top_k':1
+#             }
+#         }
+#     )
+#     answer=result['answers'][0].answer
+#     return {"answer":answer}
+
 
 class TodoList(Resource):
     def get(self):
@@ -70,13 +85,8 @@ class Ensers(Resource):
     def post(self):
         args=parser.parse_args()
         req_query=args["query"]
-        res=str(getanswers(req_query))
-        response = app.response_class(
-                response=json.dumps(res),
-                status=200,
-                mimetype='application/json'
-                )
-        return response,200
+        res=getanswers(req_query)
+        return res,200
 
 api.add_resource(Home,'/','/home')
 api.add_resource(Ensers,'/ensers')
