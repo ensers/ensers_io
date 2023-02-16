@@ -25,17 +25,17 @@ def getanswers(query):
     response=res['answers'][0].answer
     return {"response":response}
 
-# def generate_answer(query):
-#     result=semantic_gpu.generator_pipeline.run(
-#         query=query,
-#         params={
-#             'Retriever':{'top_k':10},
-#             'Generator': {'top_k':1
-#             }
-#         }
-#     )
-#     answer=result['answers'][0].answer
-#     return {"answer":answer}
+def generate_answer(query):
+    result=semantic_gpu.generator_pipeline.run(
+        query=query,
+        params={
+            'Retriever':{'top_k':10},
+            'Generator': {'top_k':1
+            }
+        }
+    )
+    answer=result['answers'][0].answer
+    return {"answer":answer}
 
 
 class TodoList(Resource):
