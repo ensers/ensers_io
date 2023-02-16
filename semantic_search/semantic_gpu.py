@@ -43,8 +43,22 @@ retriever=EmbeddingRetriever(
 #     min_length=2
 # )
 
+model = "deepset/roberta-base-squad2"
+reader = FARMReader(model, use_gpu=False)
+
+reader_pipeline = ExtractiveQAPipeline(reader, retriever)
+# generator_pipeline=GenerativeQAPipeline(generator,retriever)
 
 
+# def gen_inference(query):
+#     result=pipeline.run(
+#         query=query,
+#         params={
+#             'Retriever':{'top_k':10},
+#             'Generator': {'top_k':1
+#             }
+#         }
+#     )
 # Clean-Up
 
 # document_store.delete_documents(index='semantic')
