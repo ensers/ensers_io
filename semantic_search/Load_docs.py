@@ -1,7 +1,8 @@
+
 from dataclasses import dataclass,field
-from semantic_gpu import processor
-from semantic_gpu import retriever
-from semantic_gpu import document_store
+from .semantic_gpu import processor
+from .semantic_gpu import retriever
+from .semantic_gpu import document_store
 from haystack.utils import convert_files_to_docs
 
 @dataclass
