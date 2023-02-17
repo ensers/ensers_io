@@ -80,11 +80,9 @@ class Ensers(Resource):
         res_gen=generate_answer(req_query)
         res={"Smart response" : res_gen,
              "Basic response": answer,
-             "data":{
-                "context":context,
-                "resource":resource,
-                "offset":offset
-             }
+             "context":context,
+             "resource":resource,
+             "offset":offset
              }
         return res,200
 
