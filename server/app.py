@@ -24,7 +24,7 @@ def getanswers(query):
     answer=res['answers'][0].answer
     context=res['answers'][0].context
     resource=res['answers'][0].meta['name']
-    offset=res['answers'][0].offsets_in_document
+    offset=str(res['answers'][0].offsets_in_document)
     return answer,context,resource,offset
 
 def generate_answer(query):
@@ -80,10 +80,10 @@ class Ensers(Resource):
         res_gen=generate_answer(req_query)
         res={"Smart response" : res_gen,
              "Basic response": answer,
-             "context":context,
-             "resource":resource,
-             "offset":offset
-             }
+             "data":{"context":context,
+                    "resource":resource,
+                    "offset":offset
+                    }}
         return res,200
 
 api.add_resource(Home,'/','/home')
