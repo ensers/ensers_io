@@ -22,8 +22,11 @@ def getanswers(query):
     res=semantic_gpu.reader_pipeline.run(
             query=query,
             params={"Retriever": {"top_k": 10}, "Reader": {"top_k": 3}})
-    response=res['answers'][0].answer
-    return {"response":response}
+    response['answer']=res['answers'][0].answer
+    response['context']=res['answers'][0].context
+    response['resource']=res['answers'][0].meta['name']
+    response['offsets_in_document']=res['answer']=res['offsets_in_document'][0].context
+    return response
 
 def generate_answer(query):
     result=semantic_gpu.generator_pipeline.run(
@@ -37,17 +40,6 @@ def generate_answer(query):
     answer=result['answers'][0].answer
     return {"answer":answer}
 
-
-class TodoList(Resource):
-    def get(self):
-        return TODOS
-
-    def post(self):
-        args = parser.parse_args()
-        todo_id = int(max(TODOS.keys()).lstrip('todo')) + 1
-        todo_id = 'todo%i' % todo_id
-        TODOS[todo_id] = {'task': args['task']}
-        return TODOS[todo_id], 201
     
 class Home(Resource):
     def get(self):
@@ -85,13 +77,16 @@ class Ensers(Resource):
     def post(self):
         args=parser.parse_args()
         req_query=args["query"]
-        res=getanswers(req_query)
+        res_basic=getanswers(req_query)
+        res_gen=generate_answer(req_query)
+        res={"Basic response:": res_basic,
+             "Smart response": res_gen,
+             "context":}
         return res,200
 
 api.add_resource(Home,'/','/home')
 api.add_resource(Ensers,'/ensers')
 api.add_resource(Documents,'/documents')
-api.add_resource(TodoList, '/todos')
 
 if __name__=='__main__':
     app.run(debug=True)
