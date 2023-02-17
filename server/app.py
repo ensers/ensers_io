@@ -18,15 +18,14 @@ parser.add_argument('doc_dir',type=str, help='Enter the document path')
 TODOS = {
 }
 def getanswers(query):
-    response={}
     res=semantic_gpu.reader_pipeline.run(
             query=query,
             params={"Retriever": {"top_k": 10}, "Reader": {"top_k": 3}})
-    response['answer']=res['answers'][0].answer
-    response['context']=res['answers'][0].context
-    response['resource']=res['answers'][0].meta['name']
-    response['offsets_in_document']=res['answers'][0].offsets_in_document
-    return response
+    answer=res['answers'][0].answer
+    context=res['answers'][0].context
+    resource=res['answers'][0].meta['name']
+    offset=res['answers'][0].offsets_in_document
+    return answer,context,resource,offset
 
 def generate_answer(query):
     result=semantic_gpu.generator_pipeline.run(
@@ -77,10 +76,15 @@ class Ensers(Resource):
     def post(self):
         args=parser.parse_args()
         req_query=args["query"]
-        res_basic=jsonify(getanswers(req_query))
+        answer,context,resource,offset=getanswers(req_query)
         res_gen=generate_answer(req_query)
-        res={"Smart response": res_gen,
-             "Basic response:": res_basic
+        res={"Smart response" : res_gen,
+             "Basic response": answer,
+             "data":{
+                "context":context,
+                "resource":resource,
+                "offset":offset
+             }
              }
         return res,200
 
