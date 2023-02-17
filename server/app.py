@@ -25,7 +25,7 @@ def getanswers(query):
     response['answer']=res['answers'][0].answer
     response['context']=res['answers'][0].context
     response['resource']=res['answers'][0].meta['name']
-    response['offsets_in_document']=res['answer']=res['offsets_in_document'][0].context
+    response['offsets_in_document']=res['offsets_in_document'][0].context
     return response
 
 def generate_answer(query):
