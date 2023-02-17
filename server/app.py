@@ -77,10 +77,11 @@ class Ensers(Resource):
     def post(self):
         args=parser.parse_args()
         req_query=args["query"]
-        res_basic=getanswers(req_query)
+        res_basic=jsonify(getanswers(req_query))
         res_gen=generate_answer(req_query)
-        res={"Basic response:": res_basic,
-             "Smart response": res_gen}
+        res={"Smart response": res_gen,
+             "Basic response:": res_basic
+             }
         return res,200
 
 api.add_resource(Home,'/','/home')
