@@ -3,7 +3,7 @@ from dataclasses import dataclass,field
 from .semantic_gpu import processor
 from .semantic_gpu import retriever
 from .semantic_gpu import document_store
-from haystack.utils import convert_files_to_docs
+from haystack.utils import convert_files_to_docs,clean_wiki_text
 
 @dataclass
 class Process_Docs:
@@ -14,25 +14,18 @@ class Process_Docs:
    docs: list = field(default_factory=list)
 
    def get_docs(self):
-        self.all_docs = convert_files_to_docs(dir_path=self.doc_dir)
+        self.all_docs = convert_files_to_docs(dir_path=self.doc_dir,clean_func=clean_wiki_text, split_paragraphs=True)
         return self.all_docs
    
    def process_docs(self):
-        self.data_json=[
-            {
-                'content':doc.content.replace('\n',' ').replace('\x0c',''),
-                'meta':{'name':doc.meta}
-        } for doc in self.all_docs
-        ]
-        self.docs=processor.process(self.data_json)
+        for doc in self.all_docs:
+          doc.content=doc.content.replace('\n',' ').replace('\x0c','')
+        self.docs=processor.process(self.all_docs)
         return self.docs
    
    def write_docs(self):
     document_store.write_documents(self.docs) 
-    document_store.update_embeddings(
-    retriever,
-    batch_size=256
-    )
+    document_store.update_embeddings(retriever)
    
 # def main():
 #     document=Process_Docs(doc_dir='../content')
