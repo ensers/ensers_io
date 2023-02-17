@@ -80,8 +80,7 @@ class Ensers(Resource):
         res_basic=getanswers(req_query)
         res_gen=generate_answer(req_query)
         res={"Basic response:": res_basic,
-             "Smart response": res_gen,
-             "context":}
+             "Smart response": res_gen}
         return res,200
 
 api.add_resource(Home,'/','/home')
