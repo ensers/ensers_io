@@ -8,6 +8,6 @@ RUN pip3 install -r requirements.txt
 
 COPY . .
 
-RUN cd server/
+RUN cp xpdf-tools-linux-4.04/bin64/pdftotext /usr/local/bin && cd server/
 
 CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
