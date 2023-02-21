@@ -4,3 +4,4 @@ farm-haystack[PDFToTextConverter]
 farm-haystack[ocr]
 flask
 flask_restful
+gunicorn
