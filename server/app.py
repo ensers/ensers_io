@@ -91,4 +91,4 @@ api.add_resource(Ensers,'/ensers')
 api.add_resource(Documents,'/documents')
 
 if __name__=='__main__':
-    app.run(debug=True)
+    app.run()
