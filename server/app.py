@@ -28,7 +28,7 @@ def getanswers(query):
     if len(output['results'][0])==0:
         answer='I could not find an exact answer to your querry, however, here are some relevant documents i found related to it..'
     return {"answer": answer,
-            "context:"{
+            "context":{
                         x.answer:{'answer':x.context,
                         'document': x.meta['name'],
                         'offsets_in_context':str(x.offsets_in_context),
@@ -85,14 +85,7 @@ class Ensers(Resource):
     def post(self):
         args=parser.parse_args()
         req_query=args["query"]
-        answer,context,resource,offset=getanswers(req_query)
-        res_gen=generate_answer(req_query)
-        res={"Smart response" : res_gen,
-             "Basic response": answer,
-             "data":{"context":context,
-                    "resource":resource,
-                    "offset":offset
-                    }}
+        res=getanswers(req_query)
         return res,200
 
 api.add_resource(Home,'/','/home')
