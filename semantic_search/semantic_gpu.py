@@ -55,5 +55,7 @@ prompt_node = PromptNode(default_prompt_template=lfqa_prompt)
 
 pipe = Pipeline()
 shaper = Shaper(func="join_documents", inputs={"documents": "documents"}, outputs=["documents"])
+pipe.add_node(component=shaper, name="shaper", inputs=["Query"])
+pipe.add_node(component=prompt_node, name="prompt_node", inputs=["shaper"])
 
 
