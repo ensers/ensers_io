@@ -21,9 +21,7 @@ def getanswers(query):
     res=semantic_gpu.reader_pipeline.run(
             query=query,
             params={"Retriever": {"top_k": 10}, "Reader": {"top_k": 3}})
-    semantic_gpu.pipe.add_node(component=semantic_gpu.shaper, name="shaper", inputs=["Query"])
-    semantic_gpu.pipe.add_node(component=semantic_gpu.prompt_node, name="prompt_node", inputs=["shaper"])
-    output = semantic.pipe.run(query=query,documents=[ document for document in res['documents']])
+    output = semantic_gpu.pipe.run(query=query,documents=[ document for document in res['documents']])
     answer=output['results']
     if len(output['results'][0])==0:
         answer='I could not find an exact answer to your querry, however, here are some relevant documents i found related to it..'
