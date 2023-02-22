@@ -21,23 +21,21 @@ def getanswers(query):
     res=semantic_gpu.reader_pipeline.run(
             query=query,
             params={"Retriever": {"top_k": 10}, "Reader": {"top_k": 3}})
-    answer=res['answers'][0].answer
-    context=res['answers'][0].context
-    resource=res['answers'][0].meta['name']
-    offset=str(res['answers'][0].offsets_in_document)
+    semantic_gpu.pipe.add_node(component=semantic_gpu.shaper, name="shaper", inputs=["Query"])
+    semantic_gpu.pipe.add_node(component=semantic_gpu.prompt_node, name="prompt_node", inputs=["shaper"])
     return answer,context,resource,offset
 
-def generate_answer(query):
-    result=semantic_gpu.generator_pipeline.run(
-        query=query,
-        params={
-            'Retriever':{'top_k':10},
-            'Generator': {'top_k':1
-            }
-        }
-    )
-    answer=result['answers'][0].answer
-    return {"answer":answer}
+# def generate_answer(query):
+#     result=semantic_gpu.generator_pipeline.run(
+#         query=query,
+#         params={
+#             'Retriever':{'top_k':10},
+#             'Generator': {'top_k':1
+#             }
+#         }
+#     )
+#     answer=result['answers'][0].answer
+#     return {"answer":answer}
 
     
 class Home(Resource):
