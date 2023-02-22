@@ -23,8 +23,19 @@ def getanswers(query):
             params={"Retriever": {"top_k": 10}, "Reader": {"top_k": 3}})
     semantic_gpu.pipe.add_node(component=semantic_gpu.shaper, name="shaper", inputs=["Query"])
     semantic_gpu.pipe.add_node(component=semantic_gpu.prompt_node, name="prompt_node", inputs=["shaper"])
-    return answer,context,resource,offset
-
+    output = semantic.pipe.run(query=query,documents=[ document for document in res['documents']])
+    answer=output['results']
+    if len(output['results'][0])==0:
+        answer='I could not find an exact answer to your querry, however, here are some relevant documents i found related to it..'
+    return {"answer": answer,
+            "context:"{
+                        x.answer:{'answer':x.context,
+                        'document': x.meta['name'],
+                        'offsets_in_context':str(x.offsets_in_context),
+                        'offsets_in_document':str(x.offsets_in_document),
+                        'document_id':x.document_id} for x in res['answers']
+                        }
+            } 
 # def generate_answer(query):
 #     result=semantic_gpu.generator_pipeline.run(
 #         query=query,
