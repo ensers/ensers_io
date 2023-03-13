@@ -17,35 +17,35 @@ parser.add_argument('doc_dir',type=str, help='Enter the document path')
 
 TODOS = {
 }
-def getanswers(query):
-    res=semantic_gpu.reader_pipeline.run(
-            query=query,
-            params={"Retriever": {"top_k": 10}, "Reader": {"top_k": 3}})
-    output = semantic_gpu.pipe.run(query=query,documents=[ document for document in res['documents']])
-    answer=str(output['results'])+ f"\n\n\n ----Additional information ---- \n\n { [x.context for x in res['answers']]}"
-    if len(output['results'][0])==0:
-        answer=f" I could not find an exact answer to your querry, however, here are some relevant documents i found related to it.. \n\n\n {[x.context for x in res['answers']]}"
-    return answer
-    # return {"answer": answer,
-    #         "context":{
-    #                     x.answer:{'answer':x.context,
-    #                     'document': x.meta['name'],
-    #                     'offsets_in_context':str(x.offsets_in_context),
-    #                     'offsets_in_document':str(x.offsets_in_document),
-    #                     'document_id':x.document_id} for x in res['answers']
-    #                     }
-    #         } 
-# def generate_answer(query):
-#     result=semantic_gpu.generator_pipeline.run(
-#         query=query,
-#         params={
-#             'Retriever':{'top_k':10},
-#             'Generator': {'top_k':1
-#             }
-#         }
-#     )
-#     answer=result['answers'][0].answer
-#     return {"answer":answer}
+# def getanswers(query):
+#     res=semantic_gpu.reader_pipeline.run(
+#             query=query,
+#             params={"Retriever": {"top_k": 10}, "Reader": {"top_k": 3}})
+#     output = semantic_gpu.pipe.run(query=query,documents=[ document for document in res['documents']])
+#     answer=str(output['results'])+ f"\n\n\n ----Additional information ---- \n\n { [x.context for x in res['answers']]}"
+#     if len(output['results'][0])==0:
+#         answer=f" I could not find an exact answer to your querry, however, here are some relevant documents i found related to it.. \n\n\n {[x.context for x in res['answers']]}"
+#     return answer
+#     # return {"answer": answer,
+#     #         "context":{
+#     #                     x.answer:{'answer':x.context,
+#     #                     'document': x.meta['name'],
+#     #                     'offsets_in_context':str(x.offsets_in_context),
+#     #                     'offsets_in_document':str(x.offsets_in_document),
+#     #                     'document_id':x.document_id} for x in res['answers']
+#     #                     }
+#     #         } 
+def generate_answer(query):
+    result=semantic_gpu.generator_pipeline.run(
+        query=query,
+        params={
+            'Retriever':{'top_k':10},
+            'Generator': {'top_k':1
+            }
+        }
+    )
+    answer=result['answers'][0].answer
+    return {"answer":answer}
 
     
 class Home(Resource):
@@ -84,7 +84,7 @@ class Ensers(Resource):
     def post(self):
         args=parser.parse_args()
         req_query=args["query"]
-        res=getanswers(req_query)
+        res=generate_answer(req_query)
         return res,200
 
 api.add_resource(Home,'/','/home')
