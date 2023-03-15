@@ -16,7 +16,7 @@ from haystack.pipelines import Pipeline
 # Initializing variables
 
 document_store = PineconeDocumentStore(
-    api_key='8b1f9cc1-4214-458e-8f54-2ddacba4f5c9',
+    api_key='',
     index='semantic',
     environment='us-east1-gcp',
     similarity="dot_product",
@@ -39,7 +39,7 @@ retriever = DensePassageRetriever(
     passage_embedding_model="vblagoje/dpr-ctx_encoder-single-lfqa-wiki",
 )
 
-generator = OpenAIAnswerGenerator(api_key='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',
+generator = OpenAIAnswerGenerator(api_key='',
                                   model="text-davinci-003",
                                   max_tokens=100,
                                   presence_penalty=0.1,
