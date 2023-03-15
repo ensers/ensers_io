@@ -39,23 +39,19 @@ retriever = DensePassageRetriever(
     passage_embedding_model="vblagoje/dpr-ctx_encoder-single-lfqa-wiki",
 )
 
-# generator = Seq2SeqGenerator(model_name_or_path="vblagoje/bart_lfqa")
-# generator_pipeline=GenerativeQAPipeline(generator,retriever)
+generator = OpenAIAnswerGenerator(api_key='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',
+                                  model="text-davinci-003",
+                                  max_tokens=100,
+                                  presence_penalty=0.1,
+                                  frequency_penalty=0.1,
+                                  top_k=3,
+                                  temperature=0.9,
+                                  )
 
-model = "deepset/roberta-base-squad2"
-reader = FARMReader(model, use_gpu=True)
+# model = "deepset/roberta-base-squad2"
+# reader = FARMReader(model, use_gpu=True)
 
-reader_pipeline = ExtractiveQAPipeline(reader, retriever)
-
-
-lfqa_prompt = PromptTemplate(name="question-answering",
-                   prompt_text="Give a answer to this question. Your answer should be as detailed as possible. Context: $documents \n\n Question: $query \n\n Answer:")
-
-prompt_node = PromptNode(default_prompt_template=lfqa_prompt)
-
-pipe = Pipeline()
-shaper = Shaper(func="join_documents", inputs={"documents": "documents"}, outputs=["documents"])
-pipe.add_node(component=shaper, name="shaper", inputs=["Query"])
-pipe.add_node(component=prompt_node, name="prompt_node", inputs=["shaper"])
+# reader_pipeline = ExtractiveQAPipeline(reader, retriever)
+pipeline=GenerativeQAPipeline(generator=generator,retriever=retriever)
 
 

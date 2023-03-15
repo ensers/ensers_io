@@ -36,7 +36,7 @@ TODOS = {
 #     #                     }
 #     #         } 
 def generate_answer(query):
-    result=semantic_gpu.generator_pipeline.run(
+    result=semantic_gpu.pipeline.run(
         query=query,
         params={
             'Retriever':{'top_k':10},
