@@ -6,11 +6,11 @@ from haystack import Document
 from haystack.nodes import DensePassageRetriever
 from haystack.utils import print_answers
 # from haystack.nodes.answer_generator import RAGenerator
-# from haystack.pipelines import GenerativeQAPipeline
+from haystack.pipelines import GenerativeQAPipeline
 from haystack import Pipeline
 from haystack.nodes import FARMReader
 from haystack.pipelines import ExtractiveQAPipeline
-# from haystack.nodes import Seq2SeqGenerator
+from haystack.nodes import Seq2SeqGenerator
 from haystack.pipelines import Pipeline
 
 # Initializing variables
