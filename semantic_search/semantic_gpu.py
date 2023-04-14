@@ -10,15 +10,15 @@ from haystack.pipelines import GenerativeQAPipeline
 from haystack import Pipeline
 from haystack.nodes import FARMReader
 from haystack.pipelines import ExtractiveQAPipeline
-from haystack.nodes import Seq2SeqGenerator
+from haystack.nodes import Seq2SeqGenerator,OpenAIAnswerGenerator
 from haystack.pipelines import Pipeline
 
 # Initializing variables
 
 document_store = PineconeDocumentStore(
     api_key='',
-    index='semantic',
-    environment='us-east1-gcp',
+    index='usiu',
+    environment='us-east4-gcp',
     similarity="dot_product",
     embedding_dim=128
 )
