@@ -5,7 +5,7 @@ from haystack.nodes import PreProcessor, PromptTemplate
 from haystack import Document
 from haystack.pipelines import GenerativeQAPipeline
 from haystack import Pipeline
-from haystack.nodes import OpenAIAnswerGenerator
+from haystack.nodes import OpenAIAnswerGenerator,DensePassageRetriever
 from haystack.pipelines import Pipeline
 
 # Initializing variables
